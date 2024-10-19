@@ -1,0 +1,46 @@
+.form {
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+  background-color: aliceblue;
+  padding: 50px;
+
+  border-radius: 20px;
+
+  input {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background: linear-gradient(135deg, #aa91e9, #d5baa6);
+    color: #fff;
+    font-size: 16px;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  input:focus {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    outline: none;
+  }
+
+  button {
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #3b2571, #071b62);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}

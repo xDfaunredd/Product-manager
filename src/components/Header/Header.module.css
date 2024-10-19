@@ -1,0 +1,16 @@
+.header {
+  background-color: rgb(59, 59, 203);
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: rgb(249, 249, 249);
+  padding: 20px;
+}
+
+.sortList {
+  display: flex;
+  gap: 10px;
+}
