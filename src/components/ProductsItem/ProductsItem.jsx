@@ -3,6 +3,7 @@ import { openEditModal } from "../../redux/modalEditSlice";
 import { deleteProduct } from "../../redux/productsOpt";
 import s from "./ProductsItem.module.css";
 import { Button } from "@mui/material";
+import toast from "react-hot-toast";
 
 const ProductsItem = ({ item }) => {
   const dispatch = useDispatch();
@@ -11,7 +12,14 @@ const ProductsItem = ({ item }) => {
   };
 
   const handleDelete = () => {
-    dispatch(deleteProduct(item.id));
+    dispatch(deleteProduct(item.id))
+      .unwrap()
+      .then(() => {
+        toast.success("Successfully deleted");
+      })
+      .catch(() => {
+        toast.error("Something went wrong. Try again!");
+      });
   };
 
   return (

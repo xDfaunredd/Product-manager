@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { closeEditModal } from "../../redux/modalEditSlice";
 import { editProduct } from "../../redux/productsOpt";
 import { selectCurrentProduct } from "../../redux/selectors";
+import toast from "react-hot-toast";
 
 const ProductEditForm = () => {
   const nameId = useId();
@@ -22,19 +23,36 @@ const ProductEditForm = () => {
   };
   const handleSubmit = (values, options) => {
     if (
-      values.name.trim() === "" ||
-      values.count.trim() === "" ||
+      values.name.trim() === "" &&
+      values.count.trim() === "" &&
       values.weight.trim() === ""
     ) {
-      return;
+      return toast.error("Edit at least one field");
     }
 
-    dispatch(editProduct({ ...values, id: currentProduct.id }));
+    const changedObj = {};
+
+    Object.keys(values).forEach((key) => {
+      if (values[key] !== initialValues[key]) {
+        changedObj[key] = values[key];
+      }
+    });
+
+    console.log(changedObj);
+
+    dispatch(editProduct({ ...changedObj, id: currentProduct.id }))
+      .unwrap()
+      .then(() => {
+        toast.success("Successfully edited");
+      })
+      .catch(() => {
+        toast.error("Something went wrong. Try again!");
+      });
     dispatch(closeEditModal());
 
     options.resetForm();
   };
-  const handleCancel = () => {
+  const handleCancel = (e) => {
     dispatch(closeEditModal());
   };
 
@@ -62,7 +80,9 @@ const ProductEditForm = () => {
         </div>
 
         <button type="submit">Add product</button>
-        <button onClick={handleCancel}>Cancel</button>
+        <button type="button" onClick={handleCancel}>
+          Cancel
+        </button>
       </Form>
     </Formik>
   );

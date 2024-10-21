@@ -1,4 +1,5 @@
 import { createSelector } from "@reduxjs/toolkit";
+import toast from "react-hot-toast";
 
 export const selectIsOpen = (state) => state.modal.isOpen;
 export const selectProducts = (state) => state.products.items;
@@ -15,7 +16,13 @@ export const selectFilteredProducts = createSelector(
       case "sortByName":
         return [...products].sort((a, b) => a.name.localeCompare(b.name));
       case "sortByCount":
-        return [...products].sort((a, b) => +a.count - +b.count);
+        return [...products].sort((a, b) => {
+          if (a.count === "" || b.count === "") {
+            return toast.error("Not all counts of products are filled");
+          }
+
+          return +a.count - +b.count;
+        });
       default:
         return products;
     }

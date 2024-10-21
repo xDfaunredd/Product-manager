@@ -4,6 +4,7 @@ import s from "./ProductForm.module.css";
 import { useDispatch } from "react-redux";
 import { closeModal } from "../../redux/modalSlice";
 import { addProduct } from "../../redux/productsOpt";
+import toast from "react-hot-toast";
 const ProductForm = () => {
   const nameId = useId();
   const countId = useId();
@@ -16,20 +17,30 @@ const ProductForm = () => {
     count: "",
     weight: "",
   };
+
   const handleSubmit = (values, options) => {
     if (
       values.name.trim() === "" ||
       values.count.trim() === "" ||
       values.weight.trim() === ""
     ) {
-      return;
+      return toast.error("Fill all the fields");
     }
-    console.log(values);
-    dispatch(addProduct(values));
+
+    dispatch(addProduct(values))
+      .unwrap()
+      .then(() => {
+        toast.success("Successfully added");
+      })
+      .catch(() => {
+        toast.error("Something went wrong. Try again!");
+      });
+
     dispatch(closeModal());
 
     options.resetForm();
   };
+
   const handleCancel = () => {
     dispatch(closeModal());
   };
@@ -42,18 +53,18 @@ const ProductForm = () => {
           <Field name="name" id={nameId} pattern="[a-zA-Z]*" />
         </div>
         <div className={s.container}>
-          {" "}
           <label htmlFor={countId}>Count</label>
           <Field name="count" id={countId} pattern="\d*" />
         </div>
         <div className={s.container}>
-          {" "}
           <label htmlFor={weightId}>Weight</label>
           <Field name="weight" id={weightId} pattern="\d*" />
         </div>
 
         <button type="submit">Add product</button>
-        <button onClick={handleCancel}>Cancel</button>
+        <button type="button" onClick={handleCancel}>
+          Cancel
+        </button>
       </Form>
     </Formik>
   );
