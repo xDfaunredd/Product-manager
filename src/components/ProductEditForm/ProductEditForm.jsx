@@ -25,7 +25,8 @@ const ProductEditForm = () => {
     if (
       values.name.trim() === "" &&
       values.count.trim() === "" &&
-      values.weight.trim() === ""
+      values.weight.trim() === "" &&
+      values.comment.trim() === ""
     ) {
       return toast.error("Edit at least one field");
     }
