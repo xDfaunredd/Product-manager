@@ -1,5 +1,5 @@
 import { Field, Form, Formik } from "formik";
-import { useId } from "react";
+import { useEffect, useId, useRef } from "react";
 import s from "./ProductEditForm.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { closeEditModal } from "../../redux/modalEditSlice";
@@ -14,6 +14,12 @@ const ProductEditForm = () => {
   const commentId = useId();
   const currentProduct = useSelector(selectCurrentProduct);
   const dispatch = useDispatch();
+
+  const ref = useRef();
+
+  useEffect(() => {
+    ref.current.focus();
+  }, []);
 
   const initialValues = {
     name: "",
@@ -53,7 +59,7 @@ const ProductEditForm = () => {
 
     options.resetForm();
   };
-  const handleCancel = (e) => {
+  const handleCancel = () => {
     dispatch(closeEditModal());
   };
 
@@ -62,7 +68,7 @@ const ProductEditForm = () => {
       <Form className={s.form}>
         <div className={s.container}>
           <label htmlFor={nameId}>Name</label>
-          <Field name="name" id={nameId} pattern="[a-zA-Z]*" />
+          <Field name="name" id={nameId} pattern="[a-zA-Z]*" innerRef={ref} />
         </div>
         <div className={s.container}>
           {" "}

@@ -1,16 +1,23 @@
 import { Field, Form, Formik } from "formik";
-import { useId } from "react";
+import { useEffect, useId, useRef } from "react";
 import s from "./ProductForm.module.css";
 import { useDispatch } from "react-redux";
 import { closeModal } from "../../redux/modalSlice";
 import { addProduct } from "../../redux/productsOpt";
 import toast from "react-hot-toast";
+
 const ProductForm = () => {
   const nameId = useId();
   const countId = useId();
   const weightId = useId();
 
   const dispatch = useDispatch();
+
+  const ref = useRef();
+
+  useEffect(() => {
+    ref.current.focus();
+  }, []);
 
   const initialValues = {
     name: "",
@@ -50,7 +57,7 @@ const ProductForm = () => {
       <Form className={s.form}>
         <div className={s.container}>
           <label htmlFor={nameId}>Name</label>
-          <Field name="name" id={nameId} pattern="[a-zA-Z]*" />
+          <Field name="name" id={nameId} pattern="[a-zA-Z]*" innerRef={ref} />
         </div>
         <div className={s.container}>
           <label htmlFor={countId}>Count</label>
